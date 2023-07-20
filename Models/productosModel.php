@@ -47,7 +47,7 @@ function ConsultarProductoModel($PRODUCTO_ID) {
     return $producto;
 }
 
-function ActualizarTourModel($PRODUCTO_ID, $NOMBRE_PRODUCTO,$PRECIO, $EXISTENCIAS)
+function ActualizarProductoModel($PRODUCTO_ID, $NOMBRE_PRODUCTO,$PRECIO, $EXISTENCIAS)
 
 {
     $conn = conectar();
@@ -65,7 +65,7 @@ function ActualizarTourModel($PRODUCTO_ID, $NOMBRE_PRODUCTO,$PRECIO, $EXISTENCIA
 
 }
 
-function EliminarTourModel($PRODUCTO_ID) {
+function EliminarProductoModel($PRODUCTO_ID) {
 
     $conn = conectar();
 
