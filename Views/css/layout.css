@@ -1,0 +1,20 @@
+
+.login-log{
+padding-left: 200px;
+
+}
+
+.nav-link {
+    color: black;
+  }
+  
+
+
+.btn-custom {
+    background-color: #f8b8b4;
+    color: #fff; /* Text color */
+    border: 2px solid #f8b8b4; /* Border color */
+    /* Add any other styles you want for the button */
+  }
+  
+  
