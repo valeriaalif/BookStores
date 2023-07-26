@@ -1,5 +1,5 @@
 <?php
-include_once 'ConexionModel.php';
+include_once 'conexionModel.php';
 include_once '../Controllers/productosController.php';
 
 function ConsultarProductosModel() {
@@ -15,7 +15,7 @@ function ConsultarProductosModel() {
 
     $productos = array();
     while ($row = oci_fetch_assoc($result)) {
-        $tours[] = $row;
+        $productos[] = $row;
     }
 
     oci_free_statement($result);
@@ -51,12 +51,12 @@ function ActualizarProductoModel($PRODUCTO_ID, $NOMBRE_PRODUCTO,$PRECIO, $EXISTE
 
 {
     $conn = conectar();
-    $stmt = oci_parse($conn, "BEGIN actualizar_transporte(:pPRODUCTO_ID, :pNOMBRE_PRODUCTO,:pPRECIO, :pEXISTENCIAS, ); END;");
+    $stmt = oci_parse($conn, "BEGIN actualizar_producto(:pPRODUCTO_ID, :pNOMBRE_PRODUCTO,:pPRECIO, :pEXISTENCIAS, ); END;");
 
     oci_bind_by_name($stmt, ':pPRODUCTO_ID', $PRODUCTO_ID);
     oci_bind_by_name($stmt, ':pNOMBRE_PRODUCTO', $NOMBRE_PRODUCTO, 255);
-    oci_bind_by_name($stmt, ':pACTIVIDAD', $PRECIO, 255);
-    oci_bind_by_name($stmt, ':pDIRECCION', $EXISTENCIAS, 255);
+    oci_bind_by_name($stmt, ':pPRECIO', $PRECIO, 255);
+    oci_bind_by_name($stmt, ':pEXISTENCIAS', $EXISTENCIAS, 255);
 
     oci_execute($stmt);
 
@@ -80,7 +80,7 @@ function CrearProductoModel($nombre,$precio,$existencias) {
   
     $conn = conectar();
 
-    $sql = "INSERT INTO TOUR (NOMBRE_PRODUCTO, PRECIO, EXISTENCIAS)
+    $sql = "INSERT INTO PRODUCTO (NOMBRE_PRODUCTO, PRECIO, EXISTENCIAS)
         VALUES (:nombre, :precio, :existencias)";
 
     // Preparar la consulta SQL

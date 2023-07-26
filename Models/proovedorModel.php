@@ -1,8 +1,8 @@
 <?php
-include_once 'ConexionModel.php';
-include_once '../Controllers/proovedorController.php';
+include_once 'conexionModel.php';
+include_once '../Controllers/proveedorController.php';
 
-function ConsultarProovedoresModel() {
+function ConsultarProveedoresModel() {
 
     $conn = conectar();
 
@@ -15,7 +15,7 @@ function ConsultarProovedoresModel() {
 
     $proveedor = array();
     while ($row = oci_fetch_assoc($result)) {
-        $tours[] = $row;
+        $proveedor[] = $row;
     }
 
     oci_free_statement($result);
@@ -24,7 +24,7 @@ function ConsultarProovedoresModel() {
     return $proveedor;
 }
 
-function ConsultarProovedorModel($PROVEEDOR_ID) {
+function ConsultarProveedorModel($PROVEEDOR_ID) {
 
     $conn = conectar();
 
@@ -47,11 +47,11 @@ function ConsultarProovedorModel($PROVEEDOR_ID) {
     return $proovedor;
 }
 
-function ActualizarProovedorModel($PROVEEDOR_ID, $NOMBRE_PROVEEDOR,$EMAIL, $TELEFONO)
+function ActualizarProveedorModel($PROVEEDOR_ID, $NOMBRE_PROVEEDOR,$EMAIL, $TELEFONO)
 
 {
     $conn = conectar();
-    $stmt = oci_parse($conn, "BEGIN actualizar_transporte(:pPROVEEDOR_ID, :pNOMBRE_PROVEEDOR,:pEMAIL, :pTELEFONO, ); END;");
+    $stmt = oci_parse($conn, "BEGIN actualizar_proveedor(:pPROVEEDOR_ID, :pNOMBRE_PROVEEDOR,:pEMAIL, :pTELEFONO, ); END;");
 
     oci_bind_by_name($stmt, ':pPROVEEDOR_ID', $PROVEEDOR_ID);
     oci_bind_by_name($stmt, ':pNOMBRE_PROVEEDOR', $NOMBRE_PROVEEDOR, 255);
@@ -65,22 +65,22 @@ function ActualizarProovedorModel($PROVEEDOR_ID, $NOMBRE_PROVEEDOR,$EMAIL, $TELE
 
 }
 
-function EliminarProovedorModel($PRODUCTO_ID) {
+function EliminarProveedorModel($PRODUCTO_ID) {
 
     $conn = conectar();
 
-    $stmt = oci_parse($conn, "BEGIN eliminar_proovedor(:pPROVEEDOR_ID); END;");
+    $stmt = oci_parse($conn, "BEGIN eliminar_proveedor(:pPROVEEDOR_ID); END;");
     oci_bind_by_name($stmt, ":pPROVEEDOR_ID", $PRODUCTO_ID);
     oci_execute($stmt);
     oci_free_statement($stmt);
     oci_close($conn);
 }
 
-function CrearProovedorModel($nombre,$email,$telefono) {
+function CrearProveedorModel($nombre,$email,$telefono) {
   
     $conn = conectar();
 
-    $sql = "INSERT INTO TOUR (NOMBRE_PROVEEDOR, EMAIL, TELEFONO)
+    $sql = "INSERT INTO PROVEEDOR (NOMBRE_PROVEEDOR, EMAIL, TELEFONO)
         VALUES (:nombre, :email, :telefono)";
 
     // Preparar la consulta SQL
@@ -101,7 +101,7 @@ function CrearProovedorModel($nombre,$email,$telefono) {
 }
 
 
-function ConsultarProovedorCardsModel() {
+function ConsultarProveedorCardsModel() {
 
     $conn = conectar();
 
@@ -115,15 +115,15 @@ function ConsultarProovedorCardsModel() {
     $result = oci_parse($conn, $query);
     oci_execute($result);
 
-    $proovedor = array();
+    $proveedor = array();
     while ($row = oci_fetch_assoc($result)) {
-        $proovedor[] = $row;
+        $proveedor[] = $row;
     }
 
     oci_free_statement($result);
     oci_close($conn);
 
-    return $proovedor;
+    return $proveedor;
 }
 
 ?>
