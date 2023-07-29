@@ -33,16 +33,16 @@ function ConsultarUsuario($USUARIO_ID) {
 }
 
 
-if(isset($_POST["btnAgregarUsuario"]))
+if(isset($_POST["btnRegistrarse"]))
 {
-    $email = $_POST['email'];
+    $email = $_POST['emailRegistro'];
     $contrasena = $_POST['contrasena'];
     $nombre = $_POST['nombre'];
     $tipoUsuario = $_POST['tipo_usuario'];
 
     $respuesta = CrearUsuarioModel($email, $contrasena, $nombre, $tipoUsuario);
 
-    header("Location: ../Views/Usuarios.php");
+    header("Location: ../Views/home.php");
 
 }
 
@@ -76,4 +76,3 @@ if(isset($_POST["btnEliminarUsuario"])) {
 
 ?>
 
-?>

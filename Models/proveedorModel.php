@@ -51,7 +51,7 @@ function ActualizarProveedorModel($PROVEEDOR_ID, $NOMBRE_PROVEEDOR,$EMAIL, $TELE
 
 {
     $conn = conectar();
-    $stmt = oci_parse($conn, "BEGIN actualizar_proveedor(:pPROVEEDOR_ID, :pNOMBRE_PROVEEDOR,:pEMAIL, :pTELEFONO, ); END;");
+    $stmt = oci_parse($conn, "BEGIN ActualizarProveedor(:pPROVEEDOR_ID, :pNOMBRE_PROVEEDOR,:pEMAIL, :pTELEFONO, ); END;");
 
     oci_bind_by_name($stmt, ':pPROVEEDOR_ID', $PROVEEDOR_ID);
     oci_bind_by_name($stmt, ':pNOMBRE_PROVEEDOR', $NOMBRE_PROVEEDOR, 255);

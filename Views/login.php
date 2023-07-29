@@ -1,3 +1,11 @@
+
+<?php
+
+  include_once '../Controllers/iniciarsesionController.php';
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +31,7 @@
            		   </div>
            		   <div class="div">
            		   		<h5>Correo Electrónico</h5>
-           		   		<input type="text" class="input" name="correoElectronico">
+           		   		<input type="text" class="input" name="emailInicio">
            		   </div>
            		</div>
            		<div class="input-div pass">
@@ -32,7 +40,7 @@
            		   </div>
            		   <div class="div">
            		    	<h5>Contraseña</h5>
-           		    	<input type="password" class="input" name="contrasena">
+           		    	<input type="password" class="input" name="contrasenaInicio">
             	   </div>
             	</div>
             	<a href="#">¿Olvidó su contraseña?</a>

@@ -68,7 +68,7 @@ function ActualizarRecursoModel($recurso_id, $tipo_recurso, $url)
 
 {
     $conn = conectar();
-    $stmt = oci_parse($conn, "BEGIN actualizar_recurso(:pRECURSO_ID, :ptipo_recurso, :pUrl); END;");
+    $stmt = oci_parse($conn, "BEGIN ActualizarRecurso(:pRECURSO_ID, :ptipo_recurso, :pUrl); END;");
 
     oci_bind_by_name($stmt, ':pRECURSO_ID', $usuario_id);
     oci_bind_by_name($stmt, ':pTIPO_RECURSO', $tipo_recurso, 255);

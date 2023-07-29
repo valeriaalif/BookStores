@@ -51,7 +51,7 @@ function ActualizarProductoModel($PRODUCTO_ID, $NOMBRE_PRODUCTO,$PRECIO, $EXISTE
 
 {
     $conn = conectar();
-    $stmt = oci_parse($conn, "BEGIN actualizar_producto(:pPRODUCTO_ID, :pNOMBRE_PRODUCTO,:pPRECIO, :pEXISTENCIAS, ); END;");
+    $stmt = oci_parse($conn, "BEGIN ActualizarProducto(:pPRODUCTO_ID, :pNOMBRE_PRODUCTO,:pPRECIO, :pEXISTENCIAS, ); END;");
 
     oci_bind_by_name($stmt, ':pPRODUCTO_ID', $PRODUCTO_ID);
     oci_bind_by_name($stmt, ':pNOMBRE_PRODUCTO', $NOMBRE_PRODUCTO, 255);
