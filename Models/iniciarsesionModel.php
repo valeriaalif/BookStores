@@ -1,5 +1,6 @@
 <?php
     include_once 'conexionModel.php';
+    include_once '../Controllers/iniciarsesionController.php';
 
     function iniciarSesionModel($email, $contrasena) {
         // Se establece la conexión a la base de datos
@@ -25,7 +26,7 @@
     
         // Se devuelve el resultado del procedimiento almacenado
         if ($resultado == 1) {
-            return array('email' => $email 'nombre' => $nombre, 'estado' => $estado);
+            return array('email' => $email, 'nombre' => $nombre, 'estado' => $estado);
         } else {
             return null;
         }

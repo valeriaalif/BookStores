@@ -22,7 +22,7 @@ if(isset($_POST["btnIniciarSesion"]))
             header('Location: ../Views/home.php');
             exit();
         } else {
-            header('Location: ../Views/Login.php');
+            header('Location: ../Views/home.php');
             echo 'Email o contraseña incorrectos';
         }
 }
