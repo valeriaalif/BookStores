@@ -1,5 +1,10 @@
 <?php
+<<<<<<< HEAD
     include_once 'conexionmodel.php';
+=======
+    include_once 'conexionModel.php';
+    include_once '../Controllers/iniciarsesionController.php';
+>>>>>>> 0beb77f014be5215a99d35d9967c676085e64fb9
 
     function iniciarSesionModel($email, $contrasena) {
         // Se establece la conexión a la base de datos

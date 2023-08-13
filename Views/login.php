@@ -14,6 +14,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/signup.css">
 </head>
 <body>
 	<img class="wave" src="Img/wave.png">
@@ -31,7 +32,7 @@
            		   </div>
            		   <div class="div">
            		   		<h5>Correo Electrónico</h5>
-           		   		<input type="text" class="input" name="emailInicio">
+           		   		<input type="text" class="input" id="emailInicio" name="emailInicio">
            		   </div>
            		</div>
            		<div class="input-div pass">
@@ -40,11 +41,11 @@
            		   </div>
            		   <div class="div">
            		    	<h5>Contraseña</h5>
-           		    	<input type="password" class="input" name="contrasenaInicio">
+           		    	<input type="password" class="input"  id="contrasenaInicio" name="contrasenaInicio">
             	   </div>
             	</div>
             	<a href="#">¿Olvidó su contraseña?</a>
-            	<input type="submit" class="btn" id="btnIniciarSesion" name="btnIniciarSesion" value="Iniciar Sesión">
+            	<button class="formbold-btn"  class="btn" id="btnIniciarSesion" name="btnIniciarSesion" value="Iniciar Sesión"></button>
             </form>
         </div>
     </div>
