@@ -1,6 +1,6 @@
 <?php
 include_once 'conexionModel.php';
-include_once '../Controllers/proveedorController.php';
+include_once '../Controllers/proveedoresController.php';
 
 function ConsultarProveedoresModel() {
 
@@ -47,11 +47,9 @@ function ConsultarProveedorModel($PROVEEDOR_ID) {
     return $proovedor;
 }
 
-function ActualizarProveedorModel($PROVEEDOR_ID, $NOMBRE_PROVEEDOR,$EMAIL, $TELEFONO)
-
-{
+function ActualizarProveedorModel($PROVEEDOR_ID, $NOMBRE_PROVEEDOR, $EMAIL, $TELEFONO) {
     $conn = conectar();
-    $stmt = oci_parse($conn, "BEGIN ActualizarProveedor(:pPROVEEDOR_ID, :pNOMBRE_PROVEEDOR,:pEMAIL, :pTELEFONO, ); END;");
+    $stmt = oci_parse($conn, "BEGIN ActualizarProveedor(:pPROVEEDOR_ID, :pNOMBRE_PROVEEDOR, :pEMAIL, :pTELEFONO); END;");
 
     oci_bind_by_name($stmt, ':pPROVEEDOR_ID', $PROVEEDOR_ID);
     oci_bind_by_name($stmt, ':pNOMBRE_PROVEEDOR', $NOMBRE_PROVEEDOR, 255);
@@ -62,8 +60,8 @@ function ActualizarProveedorModel($PROVEEDOR_ID, $NOMBRE_PROVEEDOR,$EMAIL, $TELE
 
     oci_free_statement($stmt);
     oci_close($conn);
-
 }
+
 
 function EliminarProveedorModel($PRODUCTO_ID) {
 
@@ -76,17 +74,18 @@ function EliminarProveedorModel($PRODUCTO_ID) {
     oci_close($conn);
 }
 
-function CrearProveedorModel($nombre,$email,$telefono) {
+function CrearProveedorModel($idprov,$nombre,$email,$telefono) {
   
     $conn = conectar();
 
-    $sql = "INSERT INTO PROVEEDOR (NOMBRE_PROVEEDOR, EMAIL, TELEFONO)
-        VALUES (:nombre, :email, :telefono)";
+    $sql = "INSERT INTO PROVEEDOR (PROVEEDOR_ID,NOMBRE_PROVEEDOR, EMAIL, TELEFONO)
+        VALUES (:idprov,:nombre, :email, :telefono)";
 
     // Preparar la consulta SQL
     $stmt = oci_parse($conn, $sql);
 
     // Asignar los valores a los parámetros de la consulta
+    oci_bind_by_name($stmt, ':idprov', $nombre);
     oci_bind_by_name($stmt, ':nombre', $nombre);
     oci_bind_by_name($stmt, ':email', $email);
     oci_bind_by_name($stmt, ':telefono', $telefono);
