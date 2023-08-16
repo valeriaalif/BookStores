@@ -74,18 +74,17 @@ function EliminarProveedorModel($PRODUCTO_ID) {
     oci_close($conn);
 }
 
-function CrearProveedorModel($idprov,$nombre,$email,$telefono) {
+function CrearProveedorModel($nombre,$email,$telefono) {
   
     $conn = conectar();
 
-    $sql = "INSERT INTO PROVEEDOR (PROVEEDOR_ID,NOMBRE_PROVEEDOR, EMAIL, TELEFONO)
-        VALUES (:idprov,:nombre, :email, :telefono)";
+    $sql = "INSERT INTO PROVEEDOR (NOMBRE_PROVEEDOR, EMAIL, TELEFONO)
+        VALUES (:nombre, :email, :telefono)";
 
     // Preparar la consulta SQL
     $stmt = oci_parse($conn, $sql);
 
     // Asignar los valores a los parámetros de la consulta
-    oci_bind_by_name($stmt, ':idprov', $nombre);
     oci_bind_by_name($stmt, ':nombre', $nombre);
     oci_bind_by_name($stmt, ':email', $email);
     oci_bind_by_name($stmt, ':telefono', $telefono);

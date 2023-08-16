@@ -1,12 +1,12 @@
 <?php
 include_once 'conexionModel.php';
-include_once '../Controllers/recursoController.php';
+include_once '../Controllers/recursosController.php';
 
 function ConsultarRecursosModel() {
 
     $conn = conectar();
 
-    $query = "SELECT RECURSO_ID, TIPO_RECURSO FROM RECURSO";
+    $query = "SELECT RECURSO_ID, NOMBRE_RECURSO, TIPO_RECURSO, AREA FROM RECURSO";
     $result = oci_parse($conn, $query);
     oci_execute($result);
 
@@ -29,7 +29,7 @@ function ConsultarRecursoModel($RECURSO_ID) {
     $cursor = oci_new_cursor($conn);
 
     $stmt = oci_parse($conn, "BEGIN ConsultarRecurso(:pRECURSO_ID, :pCursor); END;");
-    oci_bind_by_name($stmt, ":pRECURSO_ID", $USUARIO_ID);
+    oci_bind_by_name($stmt, ":pRECURSO_ID", $RECURSO_ID);
     oci_bind_by_name($stmt, ":pCursor", $cursor, -1, OCI_B_CURSOR);
     oci_execute($stmt);
     oci_execute($cursor);
@@ -45,34 +45,41 @@ function ConsultarRecursoModel($RECURSO_ID) {
     return $recurso;
 }
 
-function CrearRecursoModel($tipo_recurso, $url) {
+function CrearRecursoModel($nombre_recurso,$tipo_recurso, $area) {
     // Se establece la conexión a la base de datos
     $conn = conectar();
 
-    // Se prepara la llamada al procedimiento almacenado
-    $stmt = oci_parse($conn, 'BEGIN INSERTAR_RECURSO(:pe_tipo_recurso, :pe_url); END;');
+    $sql = "INSERT INTO RECURSO (NOMBRE_RECURSO, TIPO_RECURSO, AREA)
+    VALUES (:nombre_recurso, :tipo_recurso,:area)";
+
+
+     // Preparar la consulta SQL
+     $stmt = oci_parse($conn, $sql);
 
     // Se definen los parámetros de entrada y salida
-    oci_bind_by_name($stmt, ':pe_tipo_recurso', $tipo_recurso, 100);
-    oci_bind_by_name($stmt, ':pe_url', $url, 1000);
+    oci_bind_by_name($stmt, ':nombre_recurso', $nombre_recurso);
+    oci_bind_by_name($stmt, ':tipo_recurso', $tipo_recurso);
+    oci_bind_by_name($stmt, ':area', $area);
 
-    // Se ejecuta el procedimiento almacenado
-    oci_execute($stmt);
-
-    // Se liberan los recursos
-    oci_free_statement($stmt);
-    oci_close($conn);
+    // Ejecutar la consulta
+    if (oci_execute($stmt)) {
+        echo "El producto ha sido agregado correctamente";
+        } else {
+        echo "Ha ocurrido un error al agregar el producto";
+        }
+        oci_close($conn);
 }
 
-function ActualizarRecursoModel($recurso_id, $tipo_recurso, $url)
+function ActualizarRecursoModel($recurso_id, $nombre_recurso, $tipo_recurso, $area)
 
 {
     $conn = conectar();
-    $stmt = oci_parse($conn, "BEGIN ActualizarRecurso(:pRECURSO_ID, :ptipo_recurso, :pUrl); END;");
+    $stmt = oci_parse($conn, "BEGIN ActualizarRecurso(:precurso_id, :pnombre_recurso,:ptipo_recurso, :parea); END;");
 
-    oci_bind_by_name($stmt, ':pRECURSO_ID', $usuario_id);
-    oci_bind_by_name($stmt, ':pTIPO_RECURSO', $tipo_recurso, 255);
-    oci_bind_by_name($stmt, ':pURL', $url, 1000);
+    oci_bind_by_name($stmt, ':precurso_id', $recurso_id);
+    oci_bind_by_name($stmt, ':pnombre_recurso', $nombre_recurso, 255);
+    oci_bind_by_name($stmt, ':ptipo_recurso', $tipo_recurso, 255);
+    oci_bind_by_name($stmt, ':parea', $area, 255);
 
 
     oci_execute($stmt);
@@ -82,7 +89,7 @@ function ActualizarRecursoModel($recurso_id, $tipo_recurso, $url)
 
 }
 
-function EliminarUsuarioModel($RECURSO_ID) {
+function EliminarRecursoModel($RECURSO_ID) {
 
     $conn = conectar();
 

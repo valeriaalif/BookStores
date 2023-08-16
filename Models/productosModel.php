@@ -7,7 +7,7 @@ function ConsultarProductosModel() {
     $conn = conectar();
 
     $query = "SELECT PRODUCTO_ID, NOMBRE_PRODUCTO, PRECIO,
-    EXUSTENCIAS FROM PRODUCTO";
+    EXISTENCIAS FROM PRODUCTO";
 
     $result = oci_parse($conn, $query);
     oci_execute($result);
@@ -55,7 +55,7 @@ function ActualizarProductoModel($PRODUCTO_ID, $NOMBRE_PRODUCTO,$PRECIO, $EXISTE
 
     oci_bind_by_name($stmt, ':pPRODUCTO_ID', $PRODUCTO_ID);
     oci_bind_by_name($stmt, ':pNOMBRE_PRODUCTO', $NOMBRE_PRODUCTO, 255);
-    oci_bind_by_name($stmt, ':pPRECIO', $PRECIO, 255);
+    oci_bind_by_name($stmt, ':pPRECIO', $PRECIO, 255.00);
     oci_bind_by_name($stmt, ':pEXISTENCIAS', $EXISTENCIAS, 255);
 
     oci_execute($stmt);

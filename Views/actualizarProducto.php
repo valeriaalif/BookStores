@@ -1,8 +1,8 @@
 <?php
 include_once 'layout.php';
-include_once '../Controllers/usuariosController.php';
+include_once '../Controllers/productosController.php';
 
-$datos = ConsultarUsuario($_GET["q"]);
+$datos = ConsultarProducto($_GET["q"]);
 ?>
 
 <!DOCTYPE html>
@@ -46,57 +46,43 @@ MostrarNavbar();
       <div class="bg-white shadow rounded-lg d-block d-sm-flex">
                 <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
-                        <h3 class="mb-4">Actualizar Usuario</h3>
+                        <h3 class="mb-4">Actualizar Producto</h3>
                         <form action="" method="post">
                     <div class="container">    
-                        <input type="hidden" id="usuario_id" name="usuario_id"
-                                value="<?php echo $datos["USUARIO_ID"] ?>" >
+                       
 
                             <div class="row">
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Nombre</label>
-                                        <input type="text" class="form-control" id="nombre"
-                                            name="nombre" value="<?php echo $datos["NOMBRE"] ?>">
+                                        <label>Nombre Producto</label>
+                                        <input type="text" class="form-control" id="nombre_producto"
+                                            name="nombre_producto" value="<?php echo $datos["NOMBRE_PRODUCTO"] ?>">
                                            
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Correo Electronico</label>
-                                            <input type="email" class="form-control" id="email"
-                                            name="email" readOnly="true" value="<?php echo $datos["EMAIL"] ?>" >
+                                        <label>Precio</label>
+                                            <input type="number" class="form-control" id="precio"
+                                            name="precio"  value="<?php echo $datos["PRECIO"] ?>" >
+                                    </div>
+                                </div>
+                         </div>
+                         <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Precio</label>
+                                            <input type="number" class="form-control" id="existencias"
+                                            name="existencias"  value="<?php echo $datos["EXISTENCIAS"] ?>" >
                                     </div>
                                 </div>
                          </div>
 
-                        
-
-                           
-                        
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="hidden" class="form-control" id="perfil"
-                                            name="perfil" readOnly="true"  value="<?php echo $datos["perfil"] ?>">
-                                           
-                                    </div>
-                                </div>
-                               
+                                
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Contraseña</label>
-                                        <input type="password" class="form-control" value="" id="contrasena"
-                                            name="contrasena" >
-                                    </div>
-                                </div>
-                            
-
-                              
+                           
 
                     </div>
                     <br>
@@ -104,14 +90,14 @@ MostrarNavbar();
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input type="submit" class="btn btn-primary btn-block" id="btnActualizarUsuario"
-                                    name="btnActualizarUsuario" value="Actualizar" />
+                                <input type="submit" class="btn btn-primary btn-block" id="btnActualizarProducto"
+                                    name="btnActualizarProducto" value="Actualizar" />
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <a class="btn btn-light" href="Usuarios.php" role="button">Cancelar</a>
+                                <a class="btn btn-light" href="productos.php" role="button">Cancelar</a>
                             </div>
                         </div>
                     </div>

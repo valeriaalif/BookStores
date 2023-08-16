@@ -10,14 +10,14 @@ function ConsultarProductos() //TODOS
 
 $productos = ConsultarProductosModel();
 
-foreach ($productos as $productos){
+foreach ($productos as $producto){
     echo '<tr>';
         echo '<td>' . $producto['PRODUCTO_ID'] . '</td>';
         echo '<td>' . $producto['NOMBRE_PRODUCTO'] . '</td>';
         echo '<td>' . $producto['PRECIO'] . '</td>';
         echo '<td>' . $producto['EXISTENCIAS'] . '</td>';
         echo "<td><a href='../Views/actualizarProducto.php?q=" . $producto['PRODUCTO_ID'] . "'>Actualizar</a> | 
-             <a href='../Views/eliminarProductos.php?q=" . $producto['PRODUCTO_ID'] . "'>Eliminar</a>
+             <a href='../Views/eliminarProducto.php?q=" . $producto['PRODUCTO_ID'] . "'>Eliminar</a>
              </td>";
     echo '</tr>';
     }
@@ -61,12 +61,13 @@ if(isset($_POST["btnActualizarProducto"]))
 {
     
     $PRODUCTO_ID = $_POST["producto_id"];
-    $NOMBRE_PRODUCTO = $_POST["nombre"];
+    $NOMBRE_PRODUCTO = $_POST["nombre_producto"];
     $PRECIO = $_POST["precio"];
     $EXISTENCIAS = $_POST["existencias"];
+    
 $respuesta = ActualizarProductoModel($PRODUCTO_ID, $NOMBRE_PRODUCTO,$PRECIO,$EXISTENCIAS);
     
-    header("Location: ../Views/Productos.php");
+    header("Location: ../Views/productos.php");
 
 }
 
@@ -76,19 +77,19 @@ if(isset($_POST["btnEliminarProducto"])) {
 
     EliminarProductoModel($PRODUCTO_ID);
 
-    header("Location: ../Views/Producto.php");
+    header("Location: ../Views/productos.php");
 }
 
 if(isset($_POST["btnAgregarProducto"]))
 {
-    $nombre = $_POST["nombre"];
-    $precio = $_POST["precio"];
-    $existencias = $_POST["existencias"];
+    $nombre = $_POST["NombreProducto"];
+    $precio = $_POST["Precio"];
+    $existencias = $_POST["Existencias"];
     
 
     $respuesta = CrearProductoModel($nombre, $precio, $existencias);
 
-    header("Location: ../Views/Productos.php");
+    header("Location: ../Views/productos.php");
 
 }
 

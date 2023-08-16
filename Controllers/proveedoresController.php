@@ -1,8 +1,6 @@
 <?php
 include_once '../Models/proveedorModel.php';
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+
 
 function ConsultarProveedores()
 {
@@ -10,7 +8,6 @@ function ConsultarProveedores()
 
     foreach ($proveedores as $proveedor) {
         echo '<tr>';
-        echo '<td>' . $proveedor['PROVEEDOR_ID'] . '</td>';
         echo '<td>' . $proveedor['NOMBRE_PROVEEDOR'] . '</td>';
         echo '<td>' . $proveedor['EMAIL'] . '</td>';
         echo '<td>' . $proveedor['TELEFONO'] . '</td>';
@@ -20,6 +17,7 @@ function ConsultarProveedores()
         echo '</tr>';
     }
 }
+
 
 function ConsultarProveedor($PROVEEDOR_ID)
 {
@@ -53,13 +51,12 @@ if (isset($_POST["btnEliminarProveedor"])) {
 }
 
 if (isset($_POST["btnAgregarProveedor"])) {
-    $idProv = $_POST["id_proveedor"];
     $nombreProv = $_POST["nombre_provee"];
     $email = $_POST["email"];
     $telefono = $_POST["telefono"];
 
 
-    $respuesta = CrearProveedorModel($idProv, $nombreProv, $email, $telefono);
+    $respuesta = CrearProveedorModel($nombreProv, $email, $telefono);
 
     header("Location: ../Views/Proveedores.php");
 

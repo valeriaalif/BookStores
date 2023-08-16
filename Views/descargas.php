@@ -1,7 +1,6 @@
-
 <?php
 include_once 'layout.php';
-include_once '../Controllers/productosController.php';
+include_once '../Controllers/recursosController.php';
 ?>
 
 <?php
@@ -15,29 +14,27 @@ MostrarNavbar();
         <table class="table table-hover">
             <thead>
                 <tr>
-                <th>Código</th>
-                    <th>Nombre Producto</th>
-                    <th>Precio</th>
-                    <th>Existencias</th>
+                    <th>Nombre del Recurso</th>
+                    <th>Tipo Recurso</th>
+                    <th>Area</th>
                     <th>Acciones</th>                    
                 </tr>
             </thead>
             <tbody>
                 <?php
-                  ConsultarProductos();
+                  ConsultarRecursos();
                 ?>
             </tbody>
         </table>
+
       </div>
     </section>
   </div>
-
+  
   <div class ="container2">
                     <div class= "agregar">
-                    <a class="BtnAgregarProd" href="agregarProducto.php">Agregar Producto</a>
+                    <a class="BtnAgregarProd" href="agregarRecurso.php">Agregar Recurso</a>
             </div>
 <?php
 MostrarFooter();
 ?>
-
-

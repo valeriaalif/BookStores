@@ -3,9 +3,9 @@
 //Metodo para conectar a la base de datos.
 
 function conectar() {
-    $usuario = 'Proyecto';//'System';
-    $password = 'root';//'root'; //;
-    $baseDatos = 'localhost/orcls';//'localhost/proy';
+    $usuario = 'AD';//'System';
+    $password = 'admin';//'root'; //;
+    $baseDatos = '';//'localhost/proy';
 
     $conn = oci_connect($usuario, $password, $baseDatos);
 
