@@ -31,7 +31,7 @@ function ConsultarVenta($VENTA_ID)
 
 
 if (isset($_POST["btnActualizarVenta"])) {
-    $PROVEEDOR_ID = $_POST["venta_id"];
+    $VENTA_ID = $_POST["venta_id"];
     $DESC_VENTA = $_POST["desc_venta"];
     $PROD_VENDIDO = $_POST["prod_vendido"];
     $DETALLE = $_POST["detalle"];

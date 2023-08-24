@@ -49,7 +49,7 @@ function ConsultarVentaModel($VENTA_ID) {
 
 function ActualizarVentaModel($VENTA_ID, $DESC_VENTA, $PROD_VENDIDO, $DETALLE) {
     $conn = conectar();
-    $stmt = oci_parse($conn, "BEGIN ActualizarVenta(:pVENTA_ID, :pDESC_VENTA, :pPROD_VENDIDO, :pDETALLE); END;");
+    $stmt = oci_parse($conn, "BEGIN ACTUALIZARVENTA(:pVENTA_ID, :pDESC_VENTA, :pPROD_VENDIDO, :pDETALLE); END;");
 
     oci_bind_by_name($stmt, ':pVENTA_ID', $VENTA_ID);
     oci_bind_by_name($stmt, ':pDESC_VENTA', $DESC_VENTA, 255);
