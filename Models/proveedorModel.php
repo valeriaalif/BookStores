@@ -1,5 +1,5 @@
 <?php
-include_once 'conexionModel.php';
+include_once 'conexionmodel.php';
 include_once '../Controllers/proveedoresController.php';
 
 function ConsultarProveedoresModel() {

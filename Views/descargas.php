@@ -14,9 +14,9 @@ MostrarNavbar();
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Nombre del Recurso</th>
+                    <th>ID</th>
                     <th>Tipo Recurso</th>
-                    <th>Area</th>
+                    <th>URL</th>
                     <th>Acciones</th>                    
                 </tr>
             </thead>

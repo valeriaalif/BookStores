@@ -6,7 +6,7 @@ function ConsultarRecursosModel() {
 
     $conn = conectar();
 
-    $query = "SELECT RECURSO_ID, NOMBRE_RECURSO, TIPO_RECURSO, AREA FROM RECURSO";
+    $query = "SELECT RECURSO_ID, TIPO_RECURSO, URL FROM RECURSO";
     $result = oci_parse($conn, $query);
     oci_execute($result);
 
@@ -45,21 +45,20 @@ function ConsultarRecursoModel($RECURSO_ID) {
     return $recurso;
 }
 
-function CrearRecursoModel($nombre_recurso,$tipo_recurso, $area) {
+function CrearRecursoModel($tipo_recurso, $url) {
     // Se establece la conexión a la base de datos
     $conn = conectar();
 
-    $sql = "INSERT INTO RECURSO (NOMBRE_RECURSO, TIPO_RECURSO, AREA)
-    VALUES (:nombre_recurso, :tipo_recurso,:area)";
+    $sql = "INSERT INTO RECURSO ( URL)
+    VALUES (:url)";
 
 
      // Preparar la consulta SQL
      $stmt = oci_parse($conn, $sql);
 
     // Se definen los parámetros de entrada y salida
-    oci_bind_by_name($stmt, ':nombre_recurso', $nombre_recurso);
     oci_bind_by_name($stmt, ':tipo_recurso', $tipo_recurso);
-    oci_bind_by_name($stmt, ':area', $area);
+    oci_bind_by_name($stmt, ':url', $url);
 
     // Ejecutar la consulta
     if (oci_execute($stmt)) {
@@ -70,16 +69,15 @@ function CrearRecursoModel($nombre_recurso,$tipo_recurso, $area) {
         oci_close($conn);
 }
 
-function ActualizarRecursoModel($recurso_id, $nombre_recurso, $tipo_recurso, $area)
+function ActualizarRecursoModel($recurso_id, $tipo_recurso, $url)
 
 {
     $conn = conectar();
-    $stmt = oci_parse($conn, "BEGIN ActualizarRecurso(:precurso_id, :pnombre_recurso,:ptipo_recurso, :parea); END;");
+    $stmt = oci_parse($conn, "BEGIN ACTUALIZARRECURSO(:precurso_id,:ptipo_recurso, :purl); END;");
 
     oci_bind_by_name($stmt, ':precurso_id', $recurso_id);
-    oci_bind_by_name($stmt, ':pnombre_recurso', $nombre_recurso, 255);
     oci_bind_by_name($stmt, ':ptipo_recurso', $tipo_recurso, 255);
-    oci_bind_by_name($stmt, ':parea', $area, 255);
+    oci_bind_by_name($stmt, ':purl', $url, 255);
 
 
     oci_execute($stmt);

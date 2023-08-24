@@ -1,5 +1,5 @@
 <?php
-include_once 'conexionModel.php';
+include_once 'conexionmodel.php';
 include_once '../Controllers/productosController.php';
 
 function ConsultarProductosModel() {
@@ -47,11 +47,10 @@ function ConsultarProductoModel($PRODUCTO_ID) {
     return $producto;
 }
 
-function ActualizarProductoModel($PRODUCTO_ID, $NOMBRE_PRODUCTO,$PRECIO, $EXISTENCIAS)
-
+function ActualizarProductoModel($PRODUCTO_ID, $NOMBRE_PRODUCTO, $PRECIO, $EXISTENCIAS)
 {
     $conn = conectar();
-    $stmt = oci_parse($conn, "BEGIN ActualizarProducto(:pPRODUCTO_ID, :pNOMBRE_PRODUCTO,:pPRECIO, :pEXISTENCIAS, ); END;");
+    $stmt = oci_parse($conn, "BEGIN Actualizarproducto(:pPRODUCTO_ID, :pNOMBRE_PRODUCTO, :pPRECIO, :pEXISTENCIAS); END;");
 
     oci_bind_by_name($stmt, ':pPRODUCTO_ID', $PRODUCTO_ID);
     oci_bind_by_name($stmt, ':pNOMBRE_PRODUCTO', $NOMBRE_PRODUCTO, 255);
@@ -62,7 +61,6 @@ function ActualizarProductoModel($PRODUCTO_ID, $NOMBRE_PRODUCTO,$PRECIO, $EXISTE
 
     oci_free_statement($stmt);
     oci_close($conn);
-
 }
 
 function EliminarProductoModel($PRODUCTO_ID) {

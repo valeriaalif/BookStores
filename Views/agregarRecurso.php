@@ -31,12 +31,7 @@
 								        <div class="col-md-12">
 									        <div class="form-group">
                                                 <div class = "row">
-										            <label>Nombre del Recurso</label>
-                                                    <br>
-                                                </div>
-                                                <div class = "row">
-										            <input type="text" required class="form-control" placeholder="Nombre" required id="nom" name="nom">
-                                                </div>
+				
 									        </div>
 	    							    </div>
                                         <div class="col-md-12">
@@ -53,11 +48,11 @@
                                         <div class="col-md-12">
 									        <div class="form-group">
                                                 <div class = "row">
-										            <label>Area</label>
+										            <label>URL</label>
                                                     <br>
                                                 </div>
                                                 <div class = "row">
-										            <input type="text" required class="form-control" placeholder="Area" required id="area" name="area">
+										            <input type="text" required class="form-control" placeholder="URL" required id="url" name="url">
                                                 </div>
 									        </div>
 	    							    </div>

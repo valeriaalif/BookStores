@@ -29,8 +29,6 @@ $datos = ConsultarProducto($_GET["q"]);
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -49,10 +47,9 @@ MostrarNavbar();
                         <h3 class="mb-4">Actualizar Producto</h3>
                         <form action="" method="post">
                     <div class="container">    
-                       
-
                             <div class="row">
-
+                            <input type="hidden" id="producto_id" name="producto_id"
+                                            value="<?php echo $datos["PRODUCTO_ID"] ?>">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Nombre Producto</label>
@@ -72,7 +69,7 @@ MostrarNavbar();
                          </div>
                          <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Precio</label>
+                                        <label>Existencias</label>
                                             <input type="number" class="form-control" id="existencias"
                                             name="existencias"  value="<?php echo $datos["EXISTENCIAS"] ?>" >
                                     </div>
@@ -81,8 +78,6 @@ MostrarNavbar();
 
                                 
                             </div>
-
-                           
 
                     </div>
                     <br>
@@ -124,10 +119,6 @@ MostrarNavbar();
     <script src="lib/tempusdominus/js/moment.min.js"></script>
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    <!-- Contact Javascript File -->
-    <script src="mail/jqBootstrapValidation.min.js"></script>
-    <script src="mail/contact.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

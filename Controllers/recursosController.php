@@ -12,9 +12,9 @@ $recursos = ConsultarRecursosModel();
 
 foreach ($recursos as $recurso){
     echo '<tr>';
-        echo '<td>' . $recurso['NOMBRE_RECURSO'] . '</td>';
+        echo '<td>' . $recurso['RECURSO_ID'] . '</td>';
         echo '<td>' . $recurso['TIPO_RECURSO'] . '</td>';
-        echo '<td>' . $recurso['AREA'] . '</td>';
+        echo '<td>' . $recurso['URL'] . '</td>';
         echo "<td><a href='../Views/actualizarRecurso.php?q=" . $recurso['RECURSO_ID'] . "'>Actualizar</a> | 
              <a href='../Views/eliminarRecurso.php?q=" . $recurso['RECURSO_ID'] . "'>Eliminar</a>
              </td>";
@@ -37,11 +37,10 @@ if(isset($_POST["btnActualizarRecurso"]))
 {
     
     $RECURSO_ID = $_POST["recurso_id"];
-    $NOMBRE_RECURSO = $_POST["nom"];
-    $TIPO_RECURSO = $_POST["tipo_rec"];
-    $AREA = $_POST["area"];
+    $TIPO_RECURSO = $_POST["tipo_recurso"];
+    $URL = $_POST["url"];
 
-$respuesta = ActualizarRecursoModel($RECURSO_ID, $NOMBRE_RECURSO, $TIPO_RECURSO, $AREA);
+$respuesta = ActualizarRecursoModel($RECURSO_ID, $TIPO_RECURSO, $URL);
     
     header("Location: ../Views/descargas.php");
 
@@ -58,12 +57,11 @@ if(isset($_POST["btnEliminarRecurso"])) {
 
 if(isset($_POST["btnAgregarRecurso"]))
 {
-    $NOMBRE_RECURSO = $_POST["nom"];
     $TIPO_RECURSO = $_POST["tipo_Recurso"];
-    $AREA = $_POST["area"];
+    $URL = $_POST["url"];
     
 
-    $respuesta = CrearRecursoModel( $NOMBRE_RECURSO,$TIPO_RECURSO,  $AREA);
+    $respuesta = CrearRecursoModel($TIPO_RECURSO,  $URL);
 
     header("Location: ../Views/descargas.php");
 

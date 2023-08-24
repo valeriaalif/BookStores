@@ -47,14 +47,22 @@ $datos = ConsultarRecurso($_GET["q"]);
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Nombre Recurso</label>
-                                                    <input type="text" class="form-control" id="nom"
-                                                        name="nom" value="<?php echo $datos["NOMBRE_RECURSO"] ?>">
+                                                    <label>Tipo</label>
+                                                    <input type="text" class="form-control" id="tipo_recurso"
+                                                        name="tipo_recurso"
+                                                        value="<?php echo $datos["TIPO_RECURSO"] ?>">
 
                                                 </div>
                                             </div>
 
-                                    
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>URL</label>
+                                                    <input type="text" class="form-control" id="url" name="url"
+                                                        value="<?php echo $datos["URL"] ?>">
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -66,21 +74,8 @@ $datos = ConsultarRecurso($_GET["q"]);
 
                                     </div>
 
-                                  
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Area</label>
-                                                <input type="tel" class="form-control"
-                                                    value="<?php echo $datos["AREA"] ?>" id="area"
-                                                    name="area">
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                             </div>
-
-                            
 
 
                         </div>

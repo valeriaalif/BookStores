@@ -31,6 +31,7 @@ MostrarNavbar();
       </div>
     </section>
   </div>
+  
 <?php
 MostrarFooter();
 ?>

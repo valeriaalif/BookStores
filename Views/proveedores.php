@@ -22,7 +22,7 @@ MostrarNavbar();
             </thead>
             <tbody>
                 <?php
-                  ConsultarProveedores();
+                 ConsultarProveedores();
                 ?>
             </tbody>
         </table>

@@ -47,7 +47,7 @@ if (isset($_POST["btnEliminarProveedor"])) {
 
     EliminarProveedorModel($PROVEEDOR_ID);
 
-    header("Location: ../Views/Proveedor.php");
+    header("Location: ../Views/Proveedores.php");
 }
 
 if (isset($_POST["btnAgregarProveedor"])) {

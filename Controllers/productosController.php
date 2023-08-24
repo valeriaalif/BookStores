@@ -57,18 +57,15 @@ foreach ($productos as $productos){
         </div>";
     }
 }
-if(isset($_POST["btnActualizarProducto"]))
-{
-    
+if (isset($_POST["btnActualizarProducto"])) {
     $PRODUCTO_ID = $_POST["producto_id"];
     $NOMBRE_PRODUCTO = $_POST["nombre_producto"];
     $PRECIO = $_POST["precio"];
     $EXISTENCIAS = $_POST["existencias"];
-    
-$respuesta = ActualizarProductoModel($PRODUCTO_ID, $NOMBRE_PRODUCTO,$PRECIO,$EXISTENCIAS);
-    
-    header("Location: ../Views/productos.php");
 
+    $respuesta = ActualizarProductoModel($PRODUCTO_ID, $NOMBRE_PRODUCTO, $PRECIO, $EXISTENCIAS);
+
+    header("Location: productos.php");
 }
 
 if(isset($_POST["btnEliminarProducto"])) {
