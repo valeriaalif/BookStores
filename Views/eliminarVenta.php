@@ -1,8 +1,8 @@
 <?php
 include_once 'layout.php';
-include_once '../Controllers/usuariosController.php';
+include_once '../Controllers/VentasController.php';
 
-$datos = ConsultarUsuario($_GET["q"]);
+$datos = ConsultarVenta($_GET["q"]);
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +34,7 @@ $datos = ConsultarUsuario($_GET["q"]);
 </head>
 
 <body>
+
 <?php
 MostrarNavbar();
 ?>
@@ -46,66 +47,35 @@ MostrarNavbar();
       <div class="bg-white shadow rounded-lg d-block d-sm-flex">
                 <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="account" role="tabpanel" aria-labelledby="account-tab">
-                        <h3 class="mb-4">Actualizar Usuario</h3>
                         <form action="" method="post">
                     <div class="container">    
-                        <input type="hidden" id="usuario_id" name="usuario_id"
-                                value="<?php echo $datos["USUARIO_ID"] ?>" >
+                    <h5 class="mb-4">¿Desea eliminar la siguiente venta?</h5>
+                        <input type="hidden" id="venta_id" name="venta_id"
+                                value="<?php echo $datos["VENTA_ID"] ?>" >
 
                             <div class="row">
 
-                                <div class="col-md-6">
+                                <div class="col-md-9">
                                     <div class="form-group">
                                         <label>Nombre</label>
-                                        <input type="text" class="form-control" id="nombre"
-                                            name="nombre" value="<?php echo $datos["NOMBRE"] ?>">
+                                        <input type="text" class="form-control" id="desc_venta"
+                                            name="desc_venta" value="<?php echo $datos["DESC_VENTA"] ?>">
                                            
                                     </div>
                                 </div>
                                 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Correo Electronico</label>
-                                            <input type="email" class="form-control" id="email"
-                                            name="email" readOnly="true" value="<?php echo $datos["EMAIL"] ?>" >
-                                    </div>
-                                </div>
-                         </div>
-
-                        
-
-                           
-                        
-                              
-                               
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Contraseña</label>
-                                        <input type="password" class="form-control" value="" id="contrasena"
-                                            name="contrasena" >
-                                    </div>
-                                </div>
-                            
-
-                              
-
-                    </div>
-                    <br>
 
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <input type="submit" class="btn btn-primary btn-block" id="btnActualizarUsuario"
-                                    name="btnActualizarUsuario" value="Actualizar" />
+                                <input type="submit" class="btn btn-primary btn-block" id="btnEliminarVenta"
+                                    name="btnEliminarVenta" value="Eliminar" />
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <a class="btn btn-light" href="Usuarios.php" role="button">Cancelar</a>
+                                <a class="btn btn-light" href="ventas.php" role="button">Cancelar</a>
                             </div>
                         </div>
                     </div>
@@ -119,9 +89,7 @@ MostrarNavbar();
 
   
 
-    <?php
-        mostrarFooter();
-    ?>
+   
 
 
     <!-- JavaScript Libraries -->
@@ -139,24 +107,8 @@ MostrarNavbar();
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-
-    <script>
-        const togglePassword = document.querySelector("#togglePassword");
-        const password = document.querySelector("#contrasena");
-
-        togglePassword.addEventListener("click", function () {
-            
-            const type = password.getAttribute("type") === "password" ? "text" : "password";
-            password.setAttribute("type", type);
-            
-            this.classList.toggle("bi-eye");
-        });
-
-        const form = document.querySelector("form");
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-        });
-    </script>
 </body>
 
 </html>
+
+

@@ -41,7 +41,7 @@ if (isset($_POST["btnRegistrarse"])) {
     $respuesta = CrearUsuarioModel($email, $contrasena, $nombre, $tipoUsuario);
 
     header("Location: ../Views/home.php");
-    exit(); // Agregamos esta línea para detener la ejecución después de la redirección
+    exit(); 
 }
 
 if (isset($_POST["btnActualizarUsuario"])) {
@@ -54,7 +54,7 @@ if (isset($_POST["btnActualizarUsuario"])) {
 
     if ($respuesta == true) {
         header("Location: ../Views/Usuarios.php");
-        exit(); // Agregamos esta línea para detener la ejecución después de la redirección
+        exit(); 
     }
 }
 
@@ -62,7 +62,7 @@ if (isset($_POST["btnEliminarUsuario"])) {
     $USUARIO_ID = $_POST["usuario_id"];
     EliminarUsuarioModel($USUARIO_ID);
     header("Location: ../Views/Usuarios.php");
-    exit(); // Agregamos esta línea para detener la ejecución después de la redirección
+    exit(); 
 }
 ?>
 

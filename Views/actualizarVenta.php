@@ -1,8 +1,8 @@
 <?php
 include_once 'layout.php';
-include_once '../Controllers/recursosController.php';
+include_once '../Controllers/VentasController.php';
 
-$datos = ConsultarRecurso($_GET["q"]);
+$datos = ConsultarVenta($_GET["q"]);
 ?>
 
 <!DOCTYPE html>
@@ -37,50 +37,43 @@ $datos = ConsultarRecurso($_GET["q"]);
                         <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="account" role="tabpanel"
                                 aria-labelledby="account-tab">
-                                <h3 class="mb-4">Actualizar Recurso</h3>
+                                <h3 class="mb-4">Actualizar Venta</h3>
                                 <form action="" method="post">
                                     <div class="container">
-                                        <input type="hidden" id="recurso_id" name="recurso_id"
-                                            value="<?php echo $datos["RECURSO_ID"] ?>">
+                                        <input type="hidden" id="venta_id" name="venta_id"
+                                            value="<?php echo $datos["VENTA_ID"] ?>">
 
                                         <div class="row">
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Nombre Recurso</label>
-                                                    <input type="text" class="form-control" id="nom"
-                                                        name="nom" value="<?php echo $datos["NOMBRE_RECURSO"] ?>">
+                                                    <label>Nombre</label>
+                                                    <input type="text" class="form-control" id="desc_venta"
+                                                        name="desc_venta" value="<?php echo $datos["DESC_VENTA"] ?>">
 
                                                 </div>
                                             </div>
 
-                                    
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Producto</label>
+                                                    <input type="text" class="form-control" id="prod_vendido" name="prod_vendido"
+                                                         value="<?php echo $datos["PROD_VENDIDO"] ?>">
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="hidden" class="form-control" id="recurso_id"
-                                                    name="recurso_id" value="<?php echo $datos["RECURSO_ID"] ?>">
+                                                <input type="text" class="form-control" id="detalle"
+                                                    name="detalle" value="<?php echo $datos["DETALLE"] ?>">
 
                                             </div>
                                         </div>
 
                                     </div>
 
-                                  
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Area</label>
-                                                <input type="tel" class="form-control"
-                                                    value="<?php echo $datos["AREA"] ?>" id="area"
-                                                    name="area">
-                                            </div>
-                                        </div>
-                                    </div>
                             </div>
-
-                            
 
 
                         </div>
@@ -89,14 +82,14 @@ $datos = ConsultarRecurso($_GET["q"]);
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-primary btn-block" id="btnActualizarRecurso"
-                                        name="btnActualizarRecurso" value="Actualizar" />
+                                    <input type="submit" class="btn btn-primary btn-block" id="btnActualizarVenta"
+                                        name="btnActualizarVenta" value="Actualizar" />
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <a class="btn btn-light" href="descargas.php" role="button">Cancelar</a>
+                                    <a class="btn btn-light" href="ventas.php" role="button">Cancelar</a>
                                 </div>
                             </div>
                         </div>

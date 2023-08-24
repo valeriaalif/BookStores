@@ -75,7 +75,7 @@ function MostrarNavbar(){
 	  <a class="nav-link" href="descargas.php">Recursos</a>
 	</li>
       <li class="nav-item">
-        <a class="nav-link" href="perfil.php">Perfil</a>
+        <a class="nav-link" href="Ventas.php">Ventas</a>
       </li>
       </ul>
   <div class="login-log">

@@ -41,7 +41,7 @@ if(isset($_POST["btnActualizarRecurso"]))
     $TIPO_RECURSO = $_POST["tipo_rec"];
     $AREA = $_POST["area"];
 
-$respuesta = ActualizarRecursoModel($RECURSO_ID, $NOMBRE_RECURSO, $TIPO_RECURSO,$AREA);
+$respuesta = ActualizarRecursoModel($RECURSO_ID, $NOMBRE_RECURSO, $TIPO_RECURSO, $AREA);
     
     header("Location: ../Views/descargas.php");
 
