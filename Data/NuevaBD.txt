@@ -1,0 +1,602 @@
+
+select * from Usuario;
+Truncate table Usuario;
+drop table producto;
+
+
+      CREATE TABLE "USUARIO" 
+   (	"USUARIO_ID" NUMBER GENERATED ALWAYS AS IDENTITY, 
+	"EMAIL" VARCHAR2(70 BYTE), 
+	"CONTRASENA" VARCHAR2(30 BYTE), 
+	"NOMBRE" VARCHAR2(255 BYTE), 
+	"TIPO_USUARIO" NUMBER(*,0), 
+	"ESTADO" NUMBER(*,0)
+   )  SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 1048576 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT);
+  
+  CREATE TABLE "PRODUCTO" 
+   (	"PRODUCTO_ID" NUMBER GENERATED ALWAYS AS IDENTITY, 
+	"NOMBRE_PRODUCTO" VARCHAR2(100 BYTE), 
+	"PRECIO" FLOAT(126), 
+	"EXISTENCIAS" NUMBER(*,0),
+    "TIPO_PRODUCTO" NUMBER(*,0)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 1048576 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT);
+  
+  CREATE TABLE "PROVEEDOR" 
+   (	"PROVEEDOR_ID" NUMBER GENERATED ALWAYS AS IDENTITY, 
+	"NOMBRE_PROVEEDOR" VARCHAR2(100 BYTE), 
+	"EMAIL" VARCHAR2(100 BYTE), 
+	"TELEFONO" VARCHAR2(10 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 1048576 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT);
+  
+  CREATE TABLE "AD"."RECURSO" 
+   (	"RECURSO_ID" NUMBER GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  NOT NULL ENABLE, 
+	"NOMBRE_RECURSO" VARCHAR2(300 BYTE), 
+	"TIPO_RECURSO" VARCHAR2(300 BYTE), 
+	"AREA" VARCHAR2(300 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 1048576 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "USERS" ;
+  
+CREATE TABLE "VENTAS" 
+   (	"VENTA_ID" NUMBER GENERATED ALWAYS AS IDENTITY , 
+	"DESC_VENTA" VARCHAR2(100 BYTE), 
+	"PROD_VENDIDO" VARCHAR2(100 BYTE), 
+	"DETALLE" VARCHAR2(100 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 1048576 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT);
+
+
+
+
+
+
+  
+  
+ALTER TABLE Usuario
+ADD CONSTRAINT usuario_pk PRIMARY KEY (usuario_id);
+
+ALTER TABLE Producto
+ADD CONSTRAINT producto_pk PRIMARY KEY (producto_id);
+
+ALTER TABLE Proveedor
+ADD CONSTRAINT proveedor_pk PRIMARY KEY (proveedor_id);
+
+ALTER TABLE Recurso
+ADD CONSTRAINT recurso_pk PRIMARY KEY (recurso_id);
+
+ALTER TABLE Ventas
+ADD CONSTRAINT venta_pk PRIMARY KEY (venta_id);
+
+
+  
+ 
+--CRUD DE USUARIOS
+create or replace NONEDITIONABLE PROCEDURE "INSERTAR_USUARIO" 
+(
+  P_EMAIL IN VARCHAR2 
+, P_CONTRASENA IN VARCHAR2 
+, P_NOMBRE IN VARCHAR2 
+, P_TIPO_USUARIO IN NUMBER 
+) AS 
+BEGIN
+  INSERT INTO USUARIO (EMAIL,CONTRASENA,NOMBRE,TIPO_USUARIO,ESTADO) VALUES (P_EMAIL, P_CONTRASENA, P_NOMBRE, P_TIPO_USUARIO, 1);
+END INSERTAR_USUARIO;
+
+create or replace NONEDITIONABLE PROCEDURE "INICIAR_SESION" (
+    pe_email IN VARCHAR2,
+    pe_contrasena IN VARCHAR2,
+    p_nombre OUT VARCHAR2,
+    p_estado OUT NUMBER,
+    p_resultado OUT NUMBER,
+    s_email OUT VARCHAR2
+) AS
+BEGIN
+    SELECT NOMBRE, ESTADO, EMAIL INTO  p_nombre, p_estado, s_email
+    FROM Usuario
+    WHERE email = pe_email AND contrasena = pe_contrasena;
+
+    IF SQL%FOUND AND p_estado = 1 THEN
+        p_resultado := 1; -- Inicio de sesión exitoso
+    ELSE
+        p_resultado := 0; -- Inicio de sesión fallido
+    END IF;
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "CONSULTAR_USUARIOS" 
+(
+    P_CURSOR OUT SYS_REFCURSOR
+)
+AS
+BEGIN
+    OPEN P_CURSOR FOR
+        SELECT 
+            USUARIO_ID, 
+            NOMBRE, 
+            EMAIL, 
+            ESTADO, 
+            TIPO_USUARIO 
+        FROM 
+            USUARIO
+        WHERE 
+            ESTADO = '1'; -- Agrega un filtro por estado activo
+
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "CONSULTARUSUARIO" (
+    pUSUARIO_ID IN NUMBER,
+    pCursor OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN pCursor FOR
+        SELECT  USUARIO_ID,
+                EMAIL,
+                ESTADO,
+                CASE WHEN ESTADO = 1 THEN 'Activo' ELSE 'Inactivo' END AS DescEstado,
+                TIPO_USUARIO,
+                NOMBRE
+        FROM USUARIO 
+        WHERE USUARIO_ID = pUSUARIO_ID;
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "ELIMINAR_USUARIO" (pUSUARIO_ID IN NUMBER)
+IS
+BEGIN
+
+    DELETE FROM USUARIO WHERE USUARIO_ID = pUSUARIO_ID;
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "ACTUALIZAR_USUARIO" (
+  pUSUARIO_ID IN usuario.USUARIO_ID%TYPE,
+  pNombre IN usuario.NOMBRE%TYPE,
+  pPerfil IN usuario.TIPO_USUARIO%TYPE,
+  pContrasena IN usuario.Contrasena%TYPE DEFAULT NULL
+) AS
+  v_contrasena usuario.Contrasena%TYPE;
+BEGIN
+  IF pContrasena IS NULL THEN
+    SELECT Contrasena INTO v_contrasena
+    FROM usuario
+    WHERE USUARIO_ID = pUSUARIO_ID;
+  ELSE
+    v_contrasena := pContrasena;
+  END IF;
+
+  UPDATE usuario
+  SET Contrasena = v_contrasena,
+      Nombre = pNombre,
+      TIPO_USUARIO = pPerfil
+  WHERE USUARIO_ID = pUSUARIO_ID;
+END;
+
+--CRUD PRODUCTOS
+
+create or replace NONEDITIONABLE PROCEDURE "INSERTAR_PRODUCTO" 
+(
+    pNOMBRE_PRODUCTO IN VARCHAR2,
+    pPRECIO IN FLOAT ,
+    pEXISTENCIAS IN NUMBER
+)
+AS 
+BEGIN
+    INSERT INTO PRODUCTO (NOMBRE_PRODUCTO,PRECIO,EXISTENCIAS) 
+    VALUES (pNOMBRE_PRODUCTO, pPRECIO, pEXISTENCIAS);
+END; 
+
+create or replace NONEDITIONABLE PROCEDURE "CONSULTARPRODUCTO" (
+    pTOUR_ID IN NUMBER,
+    pCursor OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN pCursor FOR
+        SELECT  PRODUCTO_ID,
+                NOMBRE_PRODUCTO,
+                PRECIO,
+                EXISTENCIAS
+        FROM PRODUCTO;
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "ELIMINAR_PRODUCTO" (pPRODUCTO_ID IN NUMBER)
+IS
+BEGIN
+
+    DELETE FROM PRODUCTO WHERE PRODUCTO_ID = pPRODUCTO_ID;
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "ACTUALIZARPRODUCTO" (
+
+  pPRODUCTO_ID IN producto.PRODUCTO_ID%TYPE,
+  pNOMBRE_PRODUCTO IN producto.NOMBRE_PRODUCTO%TYPE,
+  pPRECIO IN producto.PRECIO%TYPE,
+  pEXISTENCIAS IN producto.EXISTENCIAS%TYPE DEFAULT NULL
+) AS
+  
+BEGIN
+
+  UPDATE PRODUCTO
+  SET 
+      NOMBRE_PRODUCTO = pNOMBRE_PRODUCTO,
+      PRECIO = pPRECIO,
+      EXISTENCIAS = pEXISTENCIAS
+
+  WHERE PRODUCTO_ID = pPRODUCTO_ID;
+
+END;
+
+--CRUD PROVEEDORES
+
+create or replace NONEDITIONABLE PROCEDURE "CONSULTARPROVEEDOR" (
+    pPROVEEDOR_ID IN NUMBER,
+    pCursor OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN pCursor FOR
+        SELECT  PROVEEDOR_ID,
+                NOMBRE_PROVEEDOR,
+                EMAIL,
+                TELEFONO
+        FROM PROVEEDOR P
+        WHERE PROVEEDOR_ID = pPROVEEDOR_ID;
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "INSERTAR_PROVEEDOR" 
+(
+    pNOMBRE_PROVEEDOR IN VARCHAR2,
+    pEMAIL IN VARCHAR2 ,
+    pTELEFONO IN VARCHAR2 
+) AS 
+BEGIN
+    INSERT INTO PROVEEDOR (NOMBRE_PROVEEDOR,EMAIL,TELEFONO) VALUES ( pNOMBRE_PROVEEDOR, pEMAIL, pTELEFONO);
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "ELIMINAR_PROVEEDOR" (pPROVEEDOR_ID IN NUMBER)
+IS
+BEGIN
+
+    DELETE FROM PROVEEDOR WHERE PROVEEDOR_ID = pPROVEEDOR_ID;
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "ACTUALIZARPROVEEDOR" (
+
+  pPROVEEDOR_ID IN proveedor.PROVEEDOR_ID%TYPE,
+  pNOMBRE_PROVEEDOR IN proveedor.NOMBRE_PROVEEDOR%TYPE,
+  pEMAIL IN proveedor.EMAIL%TYPE,
+  pTELEFONO IN proveedor.TELEFONO%TYPE DEFAULT NULL
+) AS
+  
+BEGIN
+
+  UPDATE PROVEEDOR
+  SET 
+      NOMBRE_PROVEEDOR = pNOMBRE_PROVEEDOR,
+      EMAIL = pEMAIL,
+      TELEFONO = pTELEFONO
+
+  WHERE PROVEEDOR_ID = pPROVEEDOR_ID;
+
+END;
+
+--CRUD RECURSOS
+
+create or replace NONEDITIONABLE PROCEDURE "CONSULTARRECURSO" (
+    pRECURSO_ID IN NUMBER,
+    pCursor OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN pCursor FOR
+        SELECT  RECURSO_ID,
+          NOMBRE_RECURSO,
+                TIPO_RECURSO,
+                AREA
+        FROM RECURSO 
+        WHERE RECURSO_ID = RECURSO_ID;
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "INSERTAR_RECURSO" 
+(
+    pNOMBRE_RECURSO IN VARCHAR2,
+    pTIPO_RECURSO IN VARCHAR2,
+    pAREA IN VARCHAR2 
+) AS 
+BEGIN
+    INSERT INTO RECURSO (NOMBRE_RECURSO,TIPO_RECURSO,AREA) VALUES ( pNOMBRE_RECURSO,pTIPO_RECURSO, pAREA);
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "ELIMINAR_RECURSO" (pRECURSO_ID IN NUMBER)
+IS
+BEGIN
+
+    DELETE FROM RECURSO WHERE RECURSO_ID = pRECURSO_ID;
+END;
+create or replace NONEDITIONABLE PROCEDURE "ACTUALIZARRECURSO" (
+
+  pRECURSO_ID IN recurso.RECURSO_ID%TYPE,
+  pNOMBRE_RECURSO IN recurso.NOMBRE_RECURSO%TYPE,
+    pTIPO_RECURSO IN recurso.TIPO_RECURSO%TYPE,
+  pAREA IN recurso.AREA%TYPE DEFAULT NULL
+) AS
+  
+BEGIN
+
+  UPDATE RECURSO
+  SET 
+     NOMBRE_RECURSO = pNOMBRE_RECURSO,
+      TIPO_RECURSO = pTIPO_RECURSO,
+      AREA = pAREA
+
+  WHERE RECURSO_ID = pRECURSO_ID;
+
+END;
+
+CREATE TABLE "VENTAS" 
+   (	"VENTA_ID" NUMBER GENERATED ALWAYS AS IDENTITY , 
+	"DESC_VENTA" VARCHAR2(100 BYTE), 
+	"PROD_VENDIDO" VARCHAR2(100 BYTE), 
+	"DETALLE" VARCHAR2(100 BYTE)
+   ) SEGMENT CREATION IMMEDIATE 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  STORAGE(INITIAL 1048576 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT);
+  
+  create or replace NONEDITIONABLE PROCEDURE "ACTUALIZARVENTA" (
+
+  pVENTA_ID IN ventas.VENTA_ID%TYPE,
+  pDESC_VENTA IN ventas.DESC_VENTA%TYPE,
+  pPROD_VENDIDO IN ventas.PROD_VENDIDO%TYPE,
+  pDETALLE IN ventas.DETALLE%TYPE DEFAULT NULL
+) AS
+  
+BEGIN
+
+  UPDATE VENTAS
+  SET 
+      DESC_VENTA = pDESC_VENTA,
+      PROD_VENDIDO = pPROD_VENDIDO,
+      DETALLE = pDETALLE
+
+  WHERE VENTA_ID = pVENTA_ID;
+
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "CONSULTARVENTA" (
+    pVENTA_ID IN NUMBER,
+    pCursor OUT SYS_REFCURSOR
+) AS
+BEGIN
+    OPEN pCursor FOR
+        SELECT  VENTA_ID,
+                DESC_VENTA,
+                PROD_VENDIDO,
+                DETALLE
+        FROM VENTAS
+        WHERE VENTA_ID = pVENTA_ID;
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "ELIMINAR_VENTA" (pVENTA_ID IN NUMBER)
+IS
+BEGIN
+
+    DELETE FROM VENTAS WHERE VENTA_ID = pVENTA_ID;
+END;
+
+create or replace NONEDITIONABLE PROCEDURE "INSERTAR_VENTA" 
+(
+    pDESC_VENTA IN VARCHAR2,
+    pPROD_VENDIDO IN VARCHAR2 ,
+    pDETALLE IN VARCHAR2 
+) AS 
+BEGIN
+    INSERT INTO VENTAS (DESC_VENTA,PROD_VENDIDO,DETALLE) VALUES ( pDESC_VENTA, pPROD_VENDIDO, pDETALLE);
+END;
+
+
+
+  CREATE OR REPLACE FORCE NONEDITIONABLE VIEW "AD"."VISTA_TODOS_USUARIOS" ("USUARIO_ID", "NOMBRE", "CONTRASENA", "EMAIL", "TIPO_USUARIO", "ESTADO") AS 
+  SELECT USUARIO_ID, NOMBRE, CONTRASENA, EMAIL, TIPO_USUARIO, ESTADO
+FROM USUARIO;
+
+
+
+  CREATE OR REPLACE FORCE NONEDITIONABLE VIEW "AD"."VISTA_USUARIOS_ACTIVOS" ("USUARIO_ID", "NOMBRE", "CONTRASENA", "EMAIL", "TIPO_USUARIO", "ESTADO") AS 
+  SELECT USUARIO_ID, NOMBRE, CONTRASENA, EMAIL, TIPO_USUARIO, ESTADO
+FROM USUARIO
+WHERE ESTADO = 1;
+
+  CREATE OR REPLACE FORCE NONEDITIONABLE VIEW "AD"."VISTA_USUARIOS_POR_TIPO" ("USUARIO_ID", "NOMBRE", "CONTRASENA", "EMAIL", "TIPO_USUARIO", "ESTADO") AS 
+  SELECT USUARIO_ID, NOMBRE, CONTRASENA, EMAIL, TIPO_USUARIO, ESTADO
+FROM USUARIO
+WHERE TIPO_USUARIO = 1;
+
+
+CREATE OR REPLACE FORCE NONEDITIONABLE VIEW "AD"."VISTA_PRODUCTOS_INVENTARIO" ("PRODUCTO_ID", "NOMBRE_PRODUCTO", "PRECIO", "EXISTENCIAS", "TIPO_PRODUCTO") AS 
+  SELECT PRODCUTO_ID, NOMBRE_PRODUCTO, PRECIO, EXISTENCIAS, TIPO_PRODUCTO
+FROM PRODUCTO
+WHERE EXISTENCIAS > 0;
+
+CREATE OR REPLACE FORCE NONEDITIONABLE VIEW "AD"."VISTA_AREA_RECURSO" ("RECURSO_ID", "NOMBRE_RECURSO", "TIPO_RECURSO", "AREA") AS 
+  SELECT RECURSO_ID, NOMBRE_RECURSO, TIPO_RECURSO, AREA
+FROM RECURSO
+WHERE AREA = 'Admin';
+
+CREATE OR REPLACE PACKAGE paquete_usuarios AS
+   -- Procedimiento para insertar un nuevo usuario
+   PROCEDURE insertar_usuario(
+      p_email IN VARCHAR2,
+      p_contrasena IN VARCHAR2,
+      p_nombre IN VARCHAR2,
+      p_tipo_usuario IN NUMBER
+   );
+   
+   -- Procedimiento para iniciar sesión
+   PROCEDURE iniciar_sesion(
+      pe_email IN VARCHAR2,
+      pe_contrasena IN VARCHAR2,
+      p_nombre OUT VARCHAR2,
+      p_estado OUT NUMBER,
+      p_resultado OUT NUMBER,
+      s_email OUT VARCHAR2
+   );
+   
+   -- Procedimiento para consultar usuarios activos
+   PROCEDURE consultar_usuarios(
+      p_cursor OUT SYS_REFCURSOR
+   );
+   
+   -- Procedimiento para consultar un usuario por ID
+   PROCEDURE consultar_usuario(
+      p_usuario_id IN NUMBER,
+      p_cursor OUT SYS_REFCURSOR
+   );
+   
+   -- Procedimiento para eliminar un usuario por ID
+   PROCEDURE eliminar_usuario(
+      p_usuario_id IN NUMBER
+   );
+   
+   -- Procedimiento para actualizar un usuario
+   PROCEDURE actualizar_usuario(
+      p_usuario_id IN usuario.USUARIO_ID%TYPE,
+      p_nombre IN usuario.NOMBRE%TYPE,
+      p_perfil IN usuario.TIPO_USUARIO%TYPE,
+      p_contrasena IN usuario.CONTRASENA%TYPE DEFAULT NULL
+   );
+END paquete_usuarios;
+
+CREATE OR REPLACE PACKAGE paquete_productos AS
+   -- Procedimiento para insertar un nuevo producto
+   PROCEDURE insertar_producto(
+      p_nombre_producto IN VARCHAR2,
+      p_precio IN FLOAT,
+      p_existencias IN NUMBER
+   );
+   
+   -- Procedimiento para consultar productos
+   PROCEDURE consultar_producto(
+      p_tour_id IN NUMBER,
+      p_cursor OUT SYS_REFCURSOR
+   );
+   
+   -- Procedimiento para eliminar un producto por ID
+   PROCEDURE eliminar_producto(
+      p_producto_id IN NUMBER
+   );
+   
+   -- Procedimiento para actualizar un producto
+   PROCEDURE actualizar_producto(
+      p_producto_id IN producto.PRODUCTO_ID%TYPE,
+      p_nombre_producto IN producto.NOMBRE_PRODUCTO%TYPE,
+      p_precio IN producto.PRECIO%TYPE,
+      p_existencias IN producto.EXISTENCIAS%TYPE DEFAULT NULL
+   );
+END paquete_productos;
+
+CREATE OR REPLACE PACKAGE paquete_proveedores AS
+   -- Procedimiento para consultar un proveedor por ID
+   PROCEDURE consultar_proveedor(
+      p_proveedor_id IN NUMBER,
+      p_cursor OUT SYS_REFCURSOR
+   );
+   
+   -- Procedimiento para insertar un nuevo proveedor
+   PROCEDURE insertar_proveedor(
+      p_nombre_proveedor IN VARCHAR2,
+      p_email IN VARCHAR2,
+      p_telefono IN VARCHAR2
+   );
+   
+   -- Procedimiento para eliminar un proveedor por ID
+   PROCEDURE eliminar_proveedor(
+      p_proveedor_id IN NUMBER
+   );
+   
+   -- Procedimiento para actualizar un proveedor
+   PROCEDURE actualizar_proveedor(
+      p_proveedor_id IN proveedor.PROVEEDOR_ID%TYPE,
+      p_nombre_proveedor IN proveedor.NOMBRE_PROVEEDOR%TYPE,
+      p_email IN proveedor.EMAIL%TYPE,
+      p_telefono IN proveedor.TELEFONO%TYPE DEFAULT NULL
+   );
+END paquete_proveedores;
+
+
+CREATE OR REPLACE PACKAGE paquete_recursos AS
+   -- Procedimiento para consultar un recurso por ID
+   PROCEDURE consultar_recurso(
+      p_recurso_id IN NUMBER,
+      p_cursor OUT SYS_REFCURSOR
+   );
+   
+   -- Procedimiento para insertar un nuevo recurso
+   PROCEDURE insertar_recurso(
+      p_nombre_recurso IN VARCHAR2,
+      p_tipo_recurso IN VARCHAR2,
+      p_area IN VARCHAR2
+   );
+   
+   -- Procedimiento para eliminar un recurso por ID
+   PROCEDURE eliminar_recurso(
+      p_recurso_id IN NUMBER
+   );
+   
+   -- Procedimiento para actualizar un recurso
+   PROCEDURE actualizar_recurso(
+      p_recurso_id IN recurso.RECURSO_ID%TYPE,
+      p_nombre_recurso IN recurso.NOMBRE_RECURSO%TYPE,
+      p_tipo_recurso IN recurso.TIPO_RECURSO%TYPE,
+      p_area IN recurso.AREA%TYPE DEFAULT NULL
+   );
+END paquete_recursos;
+
+
+CREATE OR REPLACE PACKAGE paquete_ventas AS
+   -- Procedimiento para actualizar una venta
+   PROCEDURE actualizar_venta(
+      p_venta_id IN ventas.VENTA_ID%TYPE,
+      p_desc_venta IN ventas.DESC_VENTA%TYPE,
+      p_prod_vendido IN ventas.PROD_VENDIDO%TYPE,
+      p_detalle IN ventas.DETALLE%TYPE DEFAULT NULL
+   );
+   
+   -- Procedimiento para consultar una venta por ID
+   PROCEDURE consultar_venta(
+      p_venta_id IN NUMBER,
+      p_cursor OUT SYS_REFCURSOR
+   );
+   
+   -- Procedimiento para eliminar una venta por ID
+   PROCEDURE eliminar_venta(
+      p_venta_id IN NUMBER
+   );
+   
+   -- Procedimiento para insertar una nueva venta
+   PROCEDURE insertar_venta(
+      p_desc_venta IN VARCHAR2,
+      p_prod_vendido IN VARCHAR2,
+      p_detalle IN VARCHAR2
+   );
+END paquete_ventas;
+
